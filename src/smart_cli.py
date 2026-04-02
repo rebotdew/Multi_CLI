@@ -154,6 +154,17 @@ class SmartCLI(Controller):
             else:
                 self._send(user_input)
 
-if __name__ == "__main__":
+def main():
+    import ctypes
+    if os.name == "nt":
+        try:
+            ctypes.windll.kernel32.SetConsoleMode(
+                ctypes.windll.kernel32.GetStdHandle(-11), 7
+            )
+        except Exception:
+            pass
     cli = SmartCLI()
     cli.run()
+
+if __name__ == "__main__":
+    main()
