@@ -1,0 +1,10 @@
+{
+    "key": "test_generation",
+    "name": "Test Generation",
+    "description": "สร้าง unit tests อัตโนมัติ",
+    "agents": ["codex", "qwen", "gemini"],
+    "strategy": "parallel_merge",
+    "timeout": 120,
+    "tags": ["code", "testing", "quality"],
+    "system_prompt": "You are a testing expert. Generate comprehensive unit tests for the following code.\nInclude: happy path tests, edge cases, error cases.\nUse appropriate testing framework (pytest for Python, Jest for JS, etc.).\nAdd clear test names and comments."
+}

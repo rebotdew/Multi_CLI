@@ -8,6 +8,10 @@ import time
 import threading
 import itertools
 from pathlib import Path
+from prompt_toolkit import PromptSession
+from prompt_toolkit.history import FileHistory
+from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.formatted_text import HTML
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -20,13 +24,17 @@ class SmartCLI(Controller):
     def __init__(self):
         super().__init__()
         self.stop_spinner = False
+        # Setup history
+        history_file = Path.home() / ".multi_cli_history"
+        self.session = PromptSession(history=FileHistory(str(history_file)))
 
     def _header(self):
         print_header()
         
         # แสดงสถานะ Agents แบบกะทัดรัด
         enabled = [a.upper() for a in self.enabled_ids]
-        print(f" {C.DIM}● Ready Agents: {', '.join(enabled)}{C.RESET}\n")
+        print(f" {C.DIM}● Ready Agents: {', '.join(enabled)}{C.RESET}")
+        print(f" {C.DIM}● History: {Path.home() / '.multi_cli_history'}{C.RESET}\n")
         self._show_active_status()
 
     def _show_active_status(self):
@@ -48,22 +56,23 @@ class SmartCLI(Controller):
         """แสดงแถบโหลดแบบสวยๆ หลังเสร็จงาน"""
         print(f" {C.GREEN}[{'█'*20}]{C.RESET} 100% (เสร็จสิ้น!)")
 
-    def _send(self, prompt: str):
+    def _send(self, prompt_text: str):
         # ตรวจสอบว่ามีชื่อไฟล์ใน prompt ไหม (Auto-file detection)
-        words = prompt.split()
+        words = prompt_text.split()
         potential_file = ""
         for w in words:
             if "." in w and os.path.isfile(w):
                 potential_file = w
                 break
         
-        if potential_file and "@" not in prompt:
+        if potential_file and "@" not in prompt_text:
             print(f" {C.YELLOW}📂 ตรวจพบไฟล์: {potential_file}{C.RESET}")
+            # Use prompt-toolkit confirm if possible, or simple input
             confirm = input(f" {C.DIM}➜ ต้องการให้ AI อ่านไฟล์นี้ด้วยไหม? (y/n): {C.RESET}").lower()
             if confirm == 'y':
                 try:
                     with open(potential_file, "r", encoding="utf-8") as f:
-                        prompt = f"File: {potential_file}\n\nContent:\n{f.read()}\n\nQuestion: {prompt}"
+                        prompt_text = f"File: {potential_file}\n\nContent:\n{f.read()}\n\nQuestion: {prompt_text}"
                 except:
                     print(f" {C.RED}✗ อ่านไฟล์ไม่ได้{C.RESET}")
 
@@ -75,22 +84,22 @@ class SmartCLI(Controller):
             if self.selected:
                 agents = [a for a in self.selected if self.orch.agents_cfg[a].get("enabled", False)]
                 if len(agents) == 1:
-                    result = self.orch.single(agents[0], prompt)
+                    result = self.orch.single(agents[0], prompt_text)
                     self.stop_spinner = True
                     spinner_thread.join()
                     self._show_progress_bar()
                     print_result(result)
-                    self.orch.save_result(prompt, [result], "single")
+                    self.orch.save_result(prompt_text, [result], "single")
                 else:
-                    results = self.orch.parallel(agents, prompt)
+                    results = self.orch.parallel(agents, prompt_text)
                     self.stop_spinner = True
                     spinner_thread.join()
                     self._show_progress_bar()
                     print_results(results)
-                    self.orch.save_result(prompt, results, "parallel")
+                    self.orch.save_result(prompt_text, results, "parallel")
             else:
-                chosen = auto_route(prompt, self.orch.agents_cfg)
-                result = self.orch.single(chosen, prompt)
+                chosen = auto_route(prompt_text, self.orch.agents_cfg)
+                result = self.orch.single(chosen, prompt_text)
                 self.stop_spinner = True
                 spinner_thread.join()
                 
@@ -98,17 +107,23 @@ class SmartCLI(Controller):
                 print(f" {C.DIM}📝 Auto-route → {col}{chosen.upper()}{C.RESET}")
                 self._show_progress_bar()
                 print_result(result)
-                self.orch.save_result(prompt, [result], f"auto:{chosen}")
+                self.orch.save_result(prompt_text, [result], f"auto:{chosen}")
         except Exception as e:
             self.stop_spinner = True
+            if spinner_thread.is_alive():
+                spinner_thread.join()
             print(f"\n {C.RED}✗ เกิดข้อผิดพลาด: {e}{C.RESET}")
 
     def run(self):
         self._header()
         while True:
             try:
-                mode = f"[{','.join(self.selected)}]" if self.selected else "[Auto]"
-                user_input = input(f"{C.CYAN}{mode}{C.RESET} {C.BOLD}➜{C.RESET}  ").strip()
+                mode_name = f"[{','.join(self.selected)}]" if self.selected else "[Auto]"
+                # Use prompt-toolkit session
+                user_input = self.session.prompt(
+                    HTML(f'<cyan>{mode_name}</cyan> <b>➜</b>  '),
+                    auto_suggest=AutoSuggestFromHistory()
+                ).strip()
             except (KeyboardInterrupt, EOFError):
                 print(f"\n\n {C.DIM}บ๊ายบาย! 👋{C.RESET}\n")
                 break
@@ -118,6 +133,11 @@ class SmartCLI(Controller):
 
             if lower in ("/exit", "/quit"): break
             elif lower in ("/clear", "/cls"): self._header()
+            elif lower == "/setup":
+                from wizard import run_wizard
+                run_wizard()
+                self.__init__() # Reload config
+                self._header()
             elif lower.startswith("/"):
                 # จัดการคำสั่งแบบ Shorthand
                 if lower == "/help": self.cmd_help()

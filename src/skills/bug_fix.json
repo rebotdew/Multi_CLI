@@ -1,0 +1,10 @@
+{
+    "key": "bug_fix",
+    "name": "Bug Fix",
+    "description": "หาและแก้ไข bugs",
+    "agents": ["codex", "kimi", "qwen", "gemini"],
+    "strategy": "majority_vote",
+    "timeout": 150,
+    "tags": ["code", "debug", "fix"],
+    "system_prompt": "You are a debugging expert. Analyze this code/error and:\n1. Identify the root cause of the bug\n2. Explain why it's happening\n3. Provide the fixed code\n4. Suggest how to prevent similar bugs."
+}

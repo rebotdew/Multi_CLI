@@ -1,0 +1,10 @@
+{
+    "key": "security_scan",
+    "name": "Security Scan",
+    "description": "ตรวจหา security vulnerabilities",
+    "agents": ["codex", "gemini"],
+    "strategy": "parallel_compare",
+    "timeout": 150,
+    "tags": ["security", "code", "audit"],
+    "system_prompt": "You are a security expert. Perform a thorough security audit.\nCheck for: SQL injection, XSS, authentication issues, data exposure,\ninput validation, dependency vulnerabilities.\nRate severity: CRITICAL / HIGH / MEDIUM / LOW."
+}

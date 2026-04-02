@@ -1,0 +1,10 @@
+{
+    "key": "performance",
+    "name": "Performance Optimization",
+    "description": "วิเคราะห์และ optimize performance",
+    "agents": ["codex", "gemini"],
+    "strategy": "parallel_compare",
+    "timeout": 120,
+    "tags": ["code", "performance", "optimize"],
+    "system_prompt": "You are a performance engineer. Analyze and optimize this code:\n- Identify bottlenecks and inefficiencies\n- Suggest algorithmic improvements (time/space complexity)\n- Provide optimized version with benchmarks where possible."
+}

@@ -2,14 +2,15 @@
 
 รัน AI CLI tools หลายตัวพร้อมกัน (Codex, Kimi, Qwen, Gemini) ด้วยระบบ Skills และ Orchestration
 
-## ✨ Features
+## ✨ Features (v2.0+)
 
-- 🚀 **รันพร้อมกัน** - รัน 4 AI agents พร้อมกันแบบ parallel
-- 🎯 **Skills System** - ใช้ skills สำเร็จรูปสำหรับงานต่างๆ
-- 🔄 **Multiple Strategies** - Parallel, Sequential, Consensus, Compare, Vote
-- 📊 **เปรียบเทียบผลลัพธ์** - ดูความแตกต่างระหว่าง agents
-- 💾 **บันทึกผลลัพธ์** - เก็บผลลัพธ์เป็น JSON โดยอัตโนมัติ
-- 🎨 **สีสวยๆ** - Terminal output ที่มีสีสัน อ่านง่าย
+- 🚀 **Modern TUI** - อินเทอร์เฟซแบบใหม่สไตล์ Interactive (Style 3) พร้อม Command History และ Auto-Suggest
+- 🪄 **Config Wizard** - ระบบตั้งค่าอัจฉริยะ (พิมพ์ `/setup`) ช่วยให้ตั้งค่า AI Agents ได้ง่ายโดยไม่ต้องแก้ JSON
+- 🧩 **Dynamic Plugins** - ระบบ Skills แบบแยกไฟล์ (JSON) ใน `src/skills/` ช่วยให้เพิ่มความสามารถใหม่ได้ง่ายๆ
+- 🛡️ **Enhanced Security** - ระบบป้องกัน Path Traversal และ Command Injection ที่เข้มงวดขึ้น
+- 🔄 **Multiple Strategies** - Parallel, Sequential, Consensus, Compare, Vote, Merge
+- 📊 **Smart Results** - สรุปผลลัพธ์แบบตารางสวยงาม พร้อมบันทึกไฟล์ JSON อัตโนมัติ
+- 🧪 **CI/CD** - มีระบบ GitHub Actions ช่วยตรวจเช็คโค้ด (Lint/Test) ทุกครั้งที่ Push
 
 ## 📦 Installation
 
@@ -258,19 +259,28 @@ python src/cli.py consensus "ควรใช้ Python หรือ Go สำห
 
 ## 🔧 Adding Custom Skills
 
-แก้ไข `src/skills_registry.py`:
+Multi_CLI v2.0+ ใช้ระบบ Plugin แบบ JSON เพียงสร้างไฟล์ `.json` ในโฟลเดอร์ `src/skills/`:
 
-```python
-self.register(Skill(
-    name="My Custom Skill",
-    description="Description here",
-    agents=["codex", "qwen"],
-    strategy=Strategy.PARALLEL,
-    timeout=120,
-    tags=["custom", "my-skill"],
-    system_prompt="""You are an expert..."""
-))
+```json
+{
+    "key": "my_skill",
+    "name": "My Custom Skill",
+    "description": "คำอธิบาย skill ของคุณ",
+    "agents": ["qwen", "kimi"],
+    "strategy": "parallel",
+    "system_prompt": "You are a specialized assistant..."
+}
 ```
+ระบบจะโหลด Skill ใหม่ให้อัตโนมัติเมื่อเริ่มโปรแกรม
+
+## 🪄 Interactive Wizard
+
+หากต้องการตั้งค่า Agents หรือระบบโดยไม่ต้องแก้ไขไฟล์ JSON โดยตรง ให้พิมพ์คำสั่งนี้ในโหมด Interactive:
+
+```bash
+[Auto] ➜ /setup
+```
+ระบบจะเปิด Wizard ขึ้นมาช่วยคุณตั้งค่าแบบทีละขั้นตอน
 
 ## 🐛 Troubleshooting
 

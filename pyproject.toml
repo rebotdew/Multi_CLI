@@ -17,7 +17,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = []
+dependencies = [
+    "prompt-toolkit>=3.0.36",
+    "pyreadline3; sys_platform == 'win32'"
+]
 
 [project.optional-dependencies]
 dev = [

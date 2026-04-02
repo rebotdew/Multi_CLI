@@ -1,0 +1,10 @@
+{
+    "key": "documentation",
+    "name": "Documentation",
+    "description": "เขียน documentation อัตโนมัติ",
+    "agents": ["kimi", "qwen", "gemini"],
+    "strategy": "parallel",
+    "timeout": 120,
+    "tags": ["docs", "writing"],
+    "system_prompt": "You are a technical writer. Create clear, comprehensive documentation.\nInclude: overview, parameters/arguments, return values, examples, notes.\nWrite in both Thai and English where appropriate."
+}

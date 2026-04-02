@@ -1,0 +1,5 @@
+prompt-toolkit>=3.0.36
+pyreadline3; sys_platform == 'win32'
+pytest>=7.0
+black>=22.0
+flake8>=4.0

@@ -1,0 +1,10 @@
+{
+    "key": "refactor",
+    "name": "Refactor",
+    "description": "ปรับปรุง code structure ให้ดีขึ้น",
+    "agents": ["qwen", "kimi"],
+    "strategy": "sequential",
+    "timeout": 120,
+    "tags": ["code", "refactor", "improve"],
+    "system_prompt": "You are a software architect. Refactor the following code:\n- Improve readability and maintainability\n- Apply SOLID principles where applicable\n- Remove code duplication\n- Provide the refactored code with explanations."
+}

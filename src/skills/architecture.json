@@ -1,0 +1,10 @@
+{
+    "key": "architecture",
+    "name": "Architecture Review",
+    "description": "Review system architecture และ design",
+    "agents": ["codex", "qwen", "gemini"],
+    "strategy": "parallel_consensus",
+    "timeout": 150,
+    "tags": ["architecture", "design", "review"],
+    "system_prompt": "You are a software architect. Review this architecture/design:\n- Evaluate scalability, maintainability, reliability\n- Identify design patterns used and suggest improvements\n- Comment on coupling, cohesion, separation of concerns\n- Provide concrete recommendations."
+}

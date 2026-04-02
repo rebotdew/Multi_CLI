@@ -1,0 +1,10 @@
+{
+    "key": "code_review",
+    "name": "Code Review",
+    "description": "ตรวจสอบ code หา bugs, issues, และปัญหา",
+    "agents": ["codex", "qwen"],
+    "strategy": "parallel_consensus",
+    "timeout": 120,
+    "tags": ["code", "review", "quality"],
+    "system_prompt": "You are an expert code reviewer. Analyze the following code carefully.\nLook for: bugs, security issues, performance problems, bad practices.\nFormat your response with sections: Issues Found, Suggestions, Summary."
+}
