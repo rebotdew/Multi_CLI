@@ -298,11 +298,3 @@ export OPENAI_API_KEY="your-key"
 ## 📝 License
 
 MIT License - ใช้งานได้อิสระ
-
-## 🤝 Contributing
-
-Welcome contributions! สร้าง issue หรือ PR ได้เลย
-
----
-
-**Created with ❤️ for Multi-Agent AI Orchestration**
