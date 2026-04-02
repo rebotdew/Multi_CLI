@@ -1,0 +1,53 @@
+{
+  "agents": {
+    "codex": {
+      "cmd": "C:\\Users\\user\\AppData\\Roaming\\npm\\codex.cmd",
+      "args": ["exec", "--skip-git-repo-check"],
+      "prompt_flag": false,
+      "timeout": 180,
+      "enabled": true,
+      "color": "green",
+      "description": "OpenAI Codex - code-focused agent",
+      "env_vars": {}
+    },
+    "kimi": {
+      "cmd": "kimi",
+      "args": ["--print", "-p"],
+      "prompt_flag": false,
+      "timeout": 180,
+      "enabled": true,
+      "color": "yellow",
+      "description": "Kimi - Thai/documentation oriented agent",
+      "env_vars": {}
+    },
+    "qwen": {
+      "cmd": "C:\\Users\\user\\AppData\\Roaming\\npm\\qwen.cmd",
+      "args": ["-p"],
+      "prompt_flag": false,
+      "timeout": 180,
+      "enabled": true,
+      "color": "magenta",
+      "description": "Qwen - fast general-purpose agent",
+      "env_vars": {}
+    },
+    "gemini": {
+      "cmd": "C:\\Users\\user\\AppData\\Roaming\\npm\\gemini.cmd",
+      "args": ["-p"],
+      "prompt_flag": false,
+      "timeout": 300,
+      "enabled": true,
+      "color": "cyan",
+      "description": "Gemini - long-form analysis agent",
+      "env_vars": {}
+    }
+  },
+  "settings": {
+    "default_timeout": 180,
+    "max_retries": 1,
+    "save_outputs": true,
+    "max_output_chars": 10000,
+    "output_dir": "output",
+    "log_dir": "logs",
+    "default_agent": "qwen"
+  }
+}
