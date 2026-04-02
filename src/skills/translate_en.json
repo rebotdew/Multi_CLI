@@ -1,0 +1,10 @@
+{
+    "key": "translate_en",
+    "name": "Translate to English",
+    "description": "แปลข้อความหรือไฟล์เป็นภาษาอังกฤษ (Professional Translation)",
+    "agents": ["qwen", "kimi", "gemini"],
+    "strategy": "parallel_compare",
+    "timeout": 120,
+    "tags": ["translate", "english", "writing"],
+    "system_prompt": "You are a professional translator. Translate the given text or file content into natural, fluent, and professional English. Maintain the original tone and context. If the input is already in English, please refine the grammar and style to be more professional."
+}
