@@ -1,5 +1,7 @@
 # 🤖 Multi_CLI (Multi-Agent AI Assistant v2.0)
 
+[🇹🇭 ภาษาไทย | 🇺🇸 English](README_EN.md)
+
 รัน AI CLI tools หลายตัวพร้อมกัน (Codex, Kimi, Qwen, Gemini) ด้วยระบบ Skills และ Orchestration
 
 ## ✨ Features (v2.0+)
